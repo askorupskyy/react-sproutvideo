@@ -16,7 +16,9 @@ export const SproutVideoPlayer = React.forwardRef<
     play: () => {
       playerRef.current?.play();
     },
-    pause: () => {},
+    pause: () => {
+      playerRef.current?.pause();
+    },
     progress: () => {
       return {
         percent: 0,
@@ -27,12 +29,11 @@ export const SproutVideoPlayer = React.forwardRef<
 
   // wait for the iframe to be ready
   React.useEffect(() => {
-    if (iFrameRef.current) {
-      console.log(iFrameRef.current);
-      playerRef.current = new SV.PlayerImpl({
-        videoId: props.id,
-      });
-    }
+    if (!iFrameRef.current) return;
+
+    playerRef.current = new SV.PlayerImpl({
+      videoId: props.id,
+    });
   }, [iFrameRef.current]);
 
   return (
