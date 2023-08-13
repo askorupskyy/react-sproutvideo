@@ -2,7 +2,9 @@
   "name": "sproutvideo-react",
   "version": "0.0.0",
   "description": "SproutVideo React integration",
-  "main": "index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c --bundleConfigAsCjs"
@@ -32,10 +34,5 @@
     "rollup-plugin-minification": "^0.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "typescript": "^5.1.6"
-  },
-  "paths": {
-    "main": "dist/cjs/index.js",
-    "module": "dist/esm/index.js",
-    "types": "dist/index.d.ts"
   }
 }
