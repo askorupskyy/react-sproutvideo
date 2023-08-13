@@ -6,8 +6,8 @@
     "jsx": "react",
     "module": "ESNext",
     "declaration": true,
-    "declarationDir": "types",
     "sourceMap": true,
+    "target": "es2015",
     "outDir": "dist",
     "moduleResolution": "node",
     "emitDeclarationOnly": true,
@@ -19,5 +19,6 @@
     "node_modules",
     "src/**/*.test.tsx",
     "src/**/*.stories.tsx"
-  ]
+  ],
+  "include": ["src/**/*"]
 }
