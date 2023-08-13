@@ -1,0 +1,41 @@
+{
+  "name": "sproutvideo-react",
+  "version": "0.0.0",
+  "description": "SproutVideo React integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c --bundleConfigAsCjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rcbxd/sproutvideo-react.git"
+  },
+  "keywords": [
+    "react",
+    "video-player"
+  ],
+  "author": "rcbxd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rcbxd/sproutvideo-react/issues"
+  },
+  "homepage": "https://github.com/rcbxd/sproutvideo-react#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/react": "^18.2.20",
+    "react": "^18.2.0",
+    "rollup": "^3.28.0",
+    "rollup-plugin-dts": "^5.3.1",
+    "rollup-plugin-minification": "^0.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "typescript": "^5.1.6"
+  },
+  "paths": {
+    "main": "dist/cjs/index.js",
+    "module": "dist/esm/index.js",
+    "types": "dist/index.d.ts"
+  }
+}
