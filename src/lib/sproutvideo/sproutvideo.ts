@@ -54,6 +54,7 @@ namespace SV {
     // ... other private properties
 
     constructor(options: PlayerOptions) {
+      if (typeof window === "undefined") throw new Error("No window object");
       // Initialize private properties
       // ...
 
@@ -144,6 +145,8 @@ namespace SV {
     }
 
     private sendMessage(message: string): void {
+      if (typeof this._iframe === "undefined" || typeof window === "undefined")
+        return;
       this._iframe.contentWindow?.postMessage(
         message,
         window.location.protocol + "//videos.sproutvideo.com"
@@ -224,7 +227,8 @@ namespace SV {
     }
   }
 
-  window.addEventListener("message", routePlayerEvent, false);
+  if (typeof window !== "undefined")
+    window.addEventListener("message", routePlayerEvent, false);
 }
 
 export { SV };

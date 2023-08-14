@@ -4,7 +4,7 @@ This is a typescript-safe React version of SproutVideo API. It allows you to emb
 
 ## Installation
 
-`npm install sproutvideo-react`
+`npm install react-sproutvideo`
 
 ## Usage
 
@@ -15,7 +15,7 @@ Import the video object
 import {
   SproutVideoPlayer,
   type SproutVideoPlayerRef,
-} from "sproutvideo-react";
+} from "react-sproutvideo";
 
 export function MyVideoPlayer() {
   // create a ref to have custom controls over the video

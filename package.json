@@ -1,6 +1,6 @@
 {
-  "name": "sproutvideo-react",
-  "version": "0.0.0",
+  "name": "react-sproutvideo",
+  "version": "0.0.4",
   "description": "SproutVideo React integration",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rcbxd/sproutvideo-react.git"
+    "url": "git+https://github.com/rcbxd/react-sproutvideo.git"
   },
   "keywords": [
     "react",
@@ -20,9 +20,9 @@
   "author": "rcbxd",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rcbxd/sproutvideo-react/issues"
+    "url": "https://github.com/rcbxd/react-sproutvideo/issues"
   },
-  "homepage": "https://github.com/rcbxd/sproutvideo-react#readme",
+  "homepage": "https://github.com/rcbxd/react-sproutvideo#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.4",
     "@rollup/plugin-node-resolve": "^15.1.0",
