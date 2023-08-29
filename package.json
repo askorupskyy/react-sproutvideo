@@ -1,7 +1,7 @@
 {
   "name": "react-sproutvideo",
-  "version": "0.0.6",
-  "description": "SproutVideo React integration",
+  "version": "0.1.0",
+  "description": "Sproutvideo React library",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "./dist/types.d.ts",

@@ -1,6 +1,6 @@
 namespace SV {
   export interface PlayerOptions {
-    videoId?: string;
+    videoId: string;
     playlistId?: string;
     target?: HTMLIFrameElement;
     events?: any;
@@ -15,7 +15,7 @@ namespace SV {
     pause(): void;
     setVolume(vol: number): void;
     getEvents(): PlayerEvents | undefined;
-    /* getVolume(): number; */
+    getVolume(): number;
     /* setPlaybackRate(rate: number): void; */
     /* getPlaybackRate(): number; */
     /* getQualityLevel(): string; */
@@ -42,6 +42,8 @@ namespace SV {
     private _iframe: HTMLIFrameElement;
     private _events?: PlayerEvents;
 
+    private _isReady: boolean = false;
+
     private _volume: number = 1;
     private _playbackRate: number = 1;
     private _qualityLevel: string = "auto";
@@ -62,7 +64,13 @@ namespace SV {
       this._events = options.events;
       this._iframe = this.findOrCreateIframe(options);
 
+      SV.players[options?.videoId] = this;
+
       window.addEventListener("message", this.routePlayerEvent, false);
+    }
+
+    isReady(): boolean {
+      return this._isReady;
     }
 
     // Implement play, pause, setVolume, and other methods
@@ -83,6 +91,10 @@ namespace SV {
 
     setVolume(vol: number): void {
       this.sendMessage(`{"name":"volume", "data":"${vol}"}`);
+    }
+
+    getVolume(): number {
+      return this._volume;
     }
 
     bind(type: string, listener: (event: any) => void): void {
@@ -114,6 +126,7 @@ namespace SV {
           this._currentTime = message.data.time;
           break;
         case "loading":
+          this._isReady = true;
           this._loaded = message.data;
           break;
         case "ready":
@@ -127,7 +140,9 @@ namespace SV {
         case "qualityLevelChange":
           this._qualityLevel = message.data;
           break;
-        // Handle other cases as needed
+        case "canplay":
+          this._isReady = true;
+          break;
         default:
           // Do nothing or handle unknown status updates
           break;
@@ -154,8 +169,22 @@ namespace SV {
     }
 
     private routePlayerEvent(e: MessageEvent): void {
-      // Handle incoming player events
-      // ...
+      if ("videos.sproutvideo.com" == e.origin.split("//")[1]) {
+        try {
+          const message = JSON.parse(e.data);
+          const player = SV.players[message.id];
+
+          if (player) {
+            player.updateStatus(message);
+            player.fire({ type: message.type, data: message.data });
+
+            const events = player.getEvents();
+            if (events?.onStatus) events.onStatus(message);
+          }
+        } catch (e) {
+          // Handle parsing or other errors
+        }
+      }
     }
 
     private findOrCreateIframe(options: PlayerOptions): HTMLIFrameElement {
@@ -177,25 +206,6 @@ namespace SV {
 
       // If the iframe doesn't exist, throw an error or handle accordingly
       throw new Error("Cannot find video iframe.");
-    }
-  }
-
-  export function routePlayerEvent(e: MessageEvent): void {
-    if ("videos.sproutvideo.com" == e.origin.split("//")[1]) {
-      try {
-        const message = JSON.parse(e.data);
-        const player = SV.players[message.id];
-
-        if (player) {
-          player.updateStatus(message);
-          player.fire({ type: message.type, data: message.data });
-
-          const events = player.getEvents();
-          if (events?.onStatus) events.onStatus(message);
-        }
-      } catch (e) {
-        // Handle parsing or other errors
-      }
     }
   }
 
@@ -226,9 +236,6 @@ namespace SV {
       return elements;
     }
   }
-
-  if (typeof window !== "undefined")
-    window.addEventListener("message", routePlayerEvent, false);
 }
 
 export { SV };

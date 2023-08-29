@@ -3,4 +3,6 @@ export type SproutVideoPlayerProps = {
   url: string;
   className?: string;
   style?: React.CSSProperties;
+
+  onVideoReady?: () => void;
 } & React.IframeHTMLAttributes<{}>;

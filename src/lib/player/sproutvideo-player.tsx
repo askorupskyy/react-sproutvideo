@@ -8,7 +8,7 @@ import * as React from "react";
 export const SproutVideoPlayer = React.forwardRef<
   SproutVideoPlayerRef,
   SproutVideoPlayerProps
->(({ id, url, className, style, ...props }, ref) => {
+>(({ id, url, className, style, onVideoReady, ...props }, ref) => {
   const playerRef = React.useRef<SV.PlayerImpl>();
   const iFrameRef = React.useRef<HTMLIFrameElement | null>(null);
 
@@ -18,6 +18,12 @@ export const SproutVideoPlayer = React.forwardRef<
     },
     pause: () => {
       playerRef.current?.pause();
+    },
+    setVolume: (volume: number) => {
+      playerRef.current?.setVolume(volume);
+    },
+    getVolume: () => {
+      return playerRef.current?.getVolume() ?? 0;
     },
     progress: () => {
       return {
@@ -29,12 +35,19 @@ export const SproutVideoPlayer = React.forwardRef<
 
   // wait for the iframe to be ready
   React.useEffect(() => {
-    if (!iFrameRef.current) return;
+    if (!iFrameRef.current || playerRef.current) return;
 
     playerRef.current = new SV.PlayerImpl({
       videoId: id,
     });
-  }, [iFrameRef.current]);
+
+    const interval = setInterval(() => {
+      if (playerRef.current?.isReady()) {
+        onVideoReady?.();
+        clearInterval(interval);
+      }
+    }, 0);
+  }, [iFrameRef.current, playerRef.current]);
 
   return (
     <div
