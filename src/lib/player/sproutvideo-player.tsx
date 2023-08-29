@@ -8,7 +8,7 @@ import * as React from "react";
 export const SproutVideoPlayer = React.forwardRef<
   SproutVideoPlayerRef,
   SproutVideoPlayerProps
->((props, ref) => {
+>(({ id, url, className, style, ...props }, ref) => {
   const playerRef = React.useRef<SV.PlayerImpl>();
   const iFrameRef = React.useRef<HTMLIFrameElement | null>(null);
 
@@ -32,15 +32,31 @@ export const SproutVideoPlayer = React.forwardRef<
     if (!iFrameRef.current) return;
 
     playerRef.current = new SV.PlayerImpl({
-      videoId: props.id,
+      videoId: id,
     });
   }, [iFrameRef.current]);
 
   return (
-    <iframe
-      src={props.url}
-      ref={iFrameRef}
-      className="sproutvideo-player"
-    ></iframe>
+    <div
+      style={{
+        position: "relative",
+        ...style,
+      }}
+      className={className}
+    >
+      <iframe
+        src={url}
+        ref={iFrameRef}
+        className="sproutvideo-player"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+        {...props}
+      />
+    </div>
   );
 });
